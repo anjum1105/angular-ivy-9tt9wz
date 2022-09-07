@@ -1,0 +1,70 @@
+<form [formGroup]="filterForm">
+<div formArrayName="categories">
+<div class="content-desc mt-4" *ngFor="let obj of formArrCat.controls; let i = index; let l = last"
+  [formGroupName]="i">
+  <div class="car-parts">
+    <div class="row">
+      <div class="col-lg-6">
+        <label class="form-label">Car Parts <span class="required">*</span></label>
+      </div>
+      <div class="col-lg-6">
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-lg-6">
+        <div class="row gray-bg">
+          <div class="col-lg-4">
+            <label class="form-label">Category</label>
+            <mat-form-field appearance="fill" class="nusx">
+              <mat-label>Choose Category</mat-label>
+              <mat-select #multiSelect formControlName="carPartCategory"
+                (selectionChange)="onChange($event); getCarPartsSubCategory($event)">
+                <mat-option>
+                <ngx-mat-select-search [formControl]="carPartsMultiFilterCtrl" [placeholderLabel]="'search...'"
+                  [noEntriesFoundLabel]="'not found'">
+                </ngx-mat-select-search>
+              </mat-option>
+                <mat-option *ngFor="let item of filteredcarParts | async" [value]="item">{{item.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            <label class="form-label">SubCategory</label>
+            <mat-form-field appearance="fill" class="nusx">
+              <mat-label>Choose Subcategory</mat-label>
+              <mat-select #multiSelect formControlName="carPartSubCategory">
+              <mat-option>
+              <ngx-mat-select-search [formControl]="carPartsSubMultiFilterCtrl"
+                [placeholderLabel]="'search...'" [noEntriesFoundLabel]="'not found'">>
+              </ngx-mat-select-search>
+            </mat-option>
+                <mat-option *ngFor="let item of filteredcarPartsSub | async; let i = index;" [value]="item">
+                  {{item.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-lg-4">
+            <label class="form-label">Quantity</label>
+            <input type="text" class="form-control" formControlName="quantity">
+          </div> -->
+        </div>
+      </div>
+      <!-- <div class="col-lg-6">
+        <textarea class="form-control mt-2" placeholder="Comment" name="" id="" cols="10" rows="10"
+          formControlName="comment"></textarea>
+      </div> -->
+    </div>
+  </div>
+</div>
+</div>
+<div class="row mt-5">
+<div class="col-lg-12 d-flex">
+  <button type="button" class="btn-green add" (click)="createCat(this.carParts, this.defaultForm)"><i
+      class="fas fa-plus"></i> Add another row</button>
+</div>
+</div>
+<button (click)="sendForm()">Send</button>
+<pre>{{ filterForm.value | json }}</pre>
+</form>
